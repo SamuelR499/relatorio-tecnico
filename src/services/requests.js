@@ -1,21 +1,17 @@
 import axios from 'axios';
 
-const api = axios.create({
+export const api = axios.create({
   baseURL: 'https://api-relatorio-tecnico.brgagn.com.br/api/auth',
 });
 
-export const setToken = (token) => {
-  api.defaults.headers.common.Authorization = token;
+export const createSession = async (email, password) => {
+  return api.post('/login', { email, password });
 };
 
-export const requestData = async (endpoint) => {
-  const { data } = await api.get(endpoint);
-  return data;
-};
+export const apiTest = axios.create({
+  baseURL: 'https://api-relatorio-tecnico.brgagn.com.br/api/teste',
+});
 
-export const requestLogin = async (endpoint, body) => {
-  const { data } = await api.post(endpoint, body);
-  return data;
+export const getUsers = async () => {
+  return apiTest.get('/');
 };
-
-export default api;
