@@ -9,7 +9,7 @@ export const createSession = async (email, password) => {
 };
 
 export const apiTest = axios.create({
-  baseURL: 'https://api-relatorio-tecnico.brgagn.com.br/api/teste',
+  baseURL: 'https://api-relatorio-tecnico.brgagn.com.br/api/teste2',
 });
 
 export const getUsers = async () => {
