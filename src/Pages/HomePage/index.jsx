@@ -15,7 +15,7 @@ function HomePage() {
     (async () => {
       const response = await getUsers();
       console.log(response);
-      setUsers(response);
+      setUsers(response.data);
       setLoading(false);
     })();
   }, []);
@@ -37,12 +37,12 @@ function HomePage() {
       <ul>
         {
           users.map((user) => (
-            <li key={ user.nome }>
-              {user.nome}
+            <li key={ user.razao }>
+              {user.razao}
               {' '}
               -
               {' '}
-              {user.sobrenome}
+              {user.endereco}
             </li>
           ))
         }
