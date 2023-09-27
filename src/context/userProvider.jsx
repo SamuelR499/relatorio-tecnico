@@ -13,16 +13,21 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     setLoading(false);
+    const recoveredUser = localStorage.getItem('token');
+    if (recoveredUser) {
+      setToken(recoveredUser);
+    }
   }, []);
 
   const login = useCallback(async (email, password) => {
-    console.log('login', email, password);
     const response = await createSession(email, password);
     const userToken = response.data.data.token;
-    console.log('userToken --->>', userToken);
-    localStorage.setItem('token', `Bearer ${userToken}`);
+
     apiTest.defaults.headers.Authorization = `Bearer ${userToken}`;
+
+    localStorage.setItem('token', `Bearer ${userToken}`);
     setToken(userToken);
+
     navigate('/');
   }, [navigate]);
 
