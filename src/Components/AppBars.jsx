@@ -1,6 +1,11 @@
 /* eslint-disable no-magic-numbers */
 /* eslint-disable react/jsx-max-depth */
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import BarChartIcon from '@mui/icons-material/BarChart';
 import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -14,7 +19,6 @@ import Badge from '@mui/material/Badge';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { mainListItems } from './ListItems';
 import { AuthContext } from '../context/userProvider';
 
 const drawerWidth = 240;
@@ -66,6 +70,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 export default function Despesa() {
+  const navigate = useNavigate();
   const { logout } = useContext(AuthContext);
   const [open, setOpen] = useState(true);
   const toggleDrawer = () => {
@@ -103,7 +108,7 @@ export default function Despesa() {
             noWrap
             sx={ { flexGrow: 1 } }
           >
-            Despesa
+            Relatório
           </Typography>
           <IconButton color="inherit">
             <Badge color="secondary">
@@ -127,7 +132,15 @@ export default function Despesa() {
         </Toolbar>
         <Divider />
         <List component="nav">
-          {mainListItems}
+          <ListItemButton
+            onClick={ () => navigate('/relatorio') }
+
+          >
+            <ListItemIcon>
+              <BarChartIcon />
+            </ListItemIcon>
+            <ListItemText primary="Relatórios" />
+          </ListItemButton>
           <Divider sx={ { my: 1 } } />
         </List>
       </Drawer>
