@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from '../Pages/HomePage';
 import LoginPage from '../Pages/LoginPage';
 import Relatorio from '../Pages/Relatorio';
+import Forms from '../Pages/Forms';
 
 import { AuthProvider } from '../context/userProvider';
 import Private from './PrivateRoute';
@@ -27,6 +28,15 @@ function AppRoutes() {
             element={
               <Private>
                 <Relatorio />
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/formulario"
+            element={
+              <Private>
+                <Forms />
               </Private>
             }
           />

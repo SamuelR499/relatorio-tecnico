@@ -1,22 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { Button } from '@mui/material';
 import AppBars from '../../Components/AppBars';
-import Orders from '../../Components/Orders';
+import Formulario from '../../Components/Formulario';
 
-import { getRelatorios } from '../../services/requests';
-
-function HomePage() {
-  const navigate = useNavigate();
+function Forms() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
-      const response = await getRelatorios();
-      console.log(response);
       setLoading(false);
     })();
   }, []);
@@ -41,14 +34,7 @@ function HomePage() {
           } }
         >
           <Container maxWidth="lg" sx={ { mt: 10, mb: 4 } }>
-            <Button
-              variant="contained"
-              position="end"
-              onClick={ () => navigate('/formulario') }
-            >
-              Novo
-            </Button>
-            <Orders />
+            <Formulario />
           </Container>
         </Box>
       </Box>
@@ -56,4 +42,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default Forms;
