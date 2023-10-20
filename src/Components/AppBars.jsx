@@ -1,5 +1,3 @@
-/* eslint-disable no-magic-numbers */
-/* eslint-disable react/jsx-max-depth */
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -22,6 +20,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { AuthContext } from '../context/userProvider';
 
 const drawerWidth = 240;
+const smallDrawerWidth = 7;
+const largeDrawerWidth = 9;
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -58,16 +58,14 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
           easing: theme.transitions.easing.sharp,
           duration: theme.transitions.duration.leavingScreen,
         }),
-        width: theme.spacing(7),
+        width: theme.spacing(smallDrawerWidth),
         [theme.breakpoints.up('sm')]: {
-          width: theme.spacing(9),
+          width: theme.spacing(largeDrawerWidth),
         },
       }),
     },
   }),
 );
-
-// TODO remove, this demo shouldn't need to reset the theme.
 
 export default function Despesa() {
   const navigate = useNavigate();
