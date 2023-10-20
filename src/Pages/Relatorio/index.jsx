@@ -12,12 +12,15 @@ import { getRelatorios } from '../../services/requests';
 function HomePage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [dados, setDados] = useState([]);
 
   useEffect(() => {
     (async () => {
-      const response = await getRelatorios();
-      console.log(response);
+      const response = await getRelatorios('/relatorio/getAll');
+      const { data } = response;
+      console.log('oque é isto ??', data);
       setLoading(false);
+      setDados(data);
     })();
   }, []);
 
@@ -48,7 +51,8 @@ function HomePage() {
             >
               Novo
             </Button>
-            <Orders />
+            { console.log('este é o estado dados', dados)}
+            <Orders data={ dados } />
           </Container>
         </Box>
       </Box>
