@@ -14,8 +14,8 @@ export const apiTest = axios.create({
   baseURL: 'http://127.0.0.1:8000/api/',
 });
 
-export const getRelatorios = async () => {
-  return apiTest.get('/relatorio/getAll');
+export const getRelatorios = async (endpoint) => {
+  return apiTest.get(endpoint);
 };
 
 // post relatorio <-------------------------------------------------------
