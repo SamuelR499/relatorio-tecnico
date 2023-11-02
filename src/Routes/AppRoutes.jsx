@@ -41,17 +41,15 @@ function AppRoutes() {
             }
           />
           <Route
-          exact
-          path="/formulario/:id"
-          element={
-            <Private>
-              <Forms />
-            </Private>
-          }/>
+            exact
+            path="/formulario/:id"
+            element={
+              <Private>
+                <Forms />
+              </Private>
+            }
+          />
         </Routes>
-        
-
-        
 
       </AuthProvider>
     </Router>
