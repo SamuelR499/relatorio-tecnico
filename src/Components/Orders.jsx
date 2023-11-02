@@ -6,20 +6,24 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { useNavigate } from 'react-router-dom';
 
 function preventDefault(event) {
   event.preventDefault();
 }
 
 export default function Orders({ data }) {
+
+  const navigate = useNavigate();
+
   return (
     <>
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Ship To</TableCell>
+            <TableCell>Data</TableCell>
+            <TableCell>Local</TableCell>
+            <TableCell>Município</TableCell>
             <TableCell>Payment Method</TableCell>
             <TableCell align="right">Sale Amount</TableCell>
           </TableRow>
@@ -27,11 +31,20 @@ export default function Orders({ data }) {
         <TableBody>
           {data.map((row) => (
             <TableRow key={ row.id }>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.shipTo}</TableCell>
+              <TableCell>{row.data}</TableCell>
+              <TableCell>{row.local}</TableCell>
+              <TableCell>{row.municipio}</TableCell>
               <TableCell>{row.paymentMethod}</TableCell>
-              <TableCell align="right">{`$${row.amount}`}</TableCell>
+              <TableCell align="right">
+                <button onClick ={()=>{
+                  navigate(`/formulario/${row.id}`);
+                }}>
+                  Editar
+                </button>
+                <button onClick>
+                  Remover
+                </button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

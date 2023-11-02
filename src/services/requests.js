@@ -23,3 +23,7 @@ export const getRelatorios = async (endpoint) => {
 export const creatRelatorio = async (payload) => {
   return apiTest.post('/relatorio/', payload);
 };
+
+export const creatDespesa = async (payload) => {
+  return apiTest.post('/despesas/', payload);
+};

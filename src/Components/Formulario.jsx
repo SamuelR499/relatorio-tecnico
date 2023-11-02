@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import {useParams} from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { creatRelatorio, getRelatorios } from '../services/requests';
+import {creatDespesa, creatRelatorio, getRelatorios } from '../services/requests';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
 
 function Formulario() {
   const [formData, setFormData] = useState({
@@ -20,20 +24,24 @@ function Formulario() {
     responsavel: '',
     atividades: '',
   });
-
-  const [itensDespesas, setItensDespesas] = useState([]);
-  const [tableData, setTableData] = useState([
-    { coluna1: false, coluna2: '', coluna3: '', coluna4: '' },
-  ]);
-
+  const [itensDespesas,setItensDespesas]=useState([]);
+  const [formDespesa, setFormDespesa] = useState([]);
+  const [tableData, setTableData] = useState([]);
+  const {id} = useParams();
   useEffect(() => {
     (async () => {
-      const response = await getRelatorios('/itens_despesas');
+      const response = await getRelatorios(`/relatorios/${id}`  );
       const { data } = response;
-      console.log(data);
-      setItensDespesas(data);
+      
+      setFormData(data.relatorio);
+      setTableData(data.despesas);
+      //setItensDespesas(data);
     })();
   }, []);
+
+  const getRelatorio = (id)=>{
+    console.log(id);
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,10 +51,31 @@ function Formulario() {
     });
   };
 
+  const handleChangeDespesa = (e) => {
+    const { name, value } = e.target;
+    setFormDespesa({
+      ...formDespesa,
+      [name]: value,
+    });
+  };
+
+  const func= async()=>{
+    //setTableData(tableData=>[...tableData,formDespesa]);
+    
+    await creatDespesa(formDespesa).then((response)=>{
+      console.log(response.data);
+      setTableData(tableData=>[...tableData,response.data]);
+      console.log(tableData)
+    });
+   
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    creatRelatorio(formData);
+    creatRelatorio(formData).then((response)=>{
+      
+      
+    });
   };
 
   const handleTableChange = (e, rowIndex, columnName) => {
@@ -71,7 +100,7 @@ function Formulario() {
     <Box sx={ { display: 'flex', flexWrap: 'wrap' } }>
       <Container maxWidth="md">
         <Typography variant="h4" align="center" gutterBottom>
-          Formulário de Coleta de Dados
+          Formulário de Coleta de Dados{id}
         </Typography>
         <form onSubmit={ handleSubmit }>
           <TextField
@@ -114,7 +143,7 @@ function Formulario() {
             value={ formData.local }
             onChange={ handleChange }
           />
-          {console.log(itensDespesas)}
+          
           <TextField
             sx={ { m: 1, width: '42ch' } }
             name="municipio"
@@ -192,51 +221,53 @@ function Formulario() {
           </Button>
         </form>
         <div>
+      
+          <select  name='item' onChange={handleChangeDespesa}>
+            <option value={ false }>Selecione</option>
+            {itensDespesas.map(({ id, descricao }) => (
+              <option key={ id + descricao } value={ id }>{descricao}</option>
+            ))}
+            </select>
+            <input onChange={handleChangeDespesa} name='relatorio_id'/>
+          <input  onChange={handleChangeDespesa} name='valor_unitario'/>
+          <input  onChange={handleChangeDespesa} name='quantidade'/>
+          <input  onChange={handleChangeDespesa} name='valor_total'/>
+          <button type='button' onClick={func} >Salvar</button>
+        </div>
+        <div>
           <table>
             <thead>
               <tr>
-                <th>Coluna 1</th>
-                <th>Coluna 2</th>
-                <th>Coluna 3</th>
-                <th>Coluna 4</th>
+
+                <th>Item</th>
+                <th>Valor</th>
+                <th>Quantidade</th>
+                <th>Total</th>
+                <th>Editar</th>
+                <th>Remover</th>
               </tr>
             </thead>
             <tbody>
               {tableData.map((row, rowIndex) => (
                 <tr key={ rowIndex }>
                   <td>
-                    <select
-                      onChange={ (e) => handleTableChange(e, rowIndex, 'coluna1') }
-                    >
-                      <option value={ false }>Selecione</option>
-                      {itensDespesas.map(({ id, descricao }) => (
-                        <option key={ id + descricao } value={ id }>{descricao}</option>
-                      ))}
-                    </select>
+                   {row.item}
                   </td>
                   <td>
-                    <input
-                      type="text"
-                      value={ row.coluna2 }
-                      onChange={ (e) => handleTableChange(e, rowIndex, 'coluna2') }
-                    />
+                  {row.valor_unitario}
                   </td>
                   <td>
-                    <input
-                      type="text"
-                      value={ row.coluna3 }
-                      onChange={ (e) => handleTableChange(e, rowIndex, 'coluna3') }
-                    />
+                  {row.quantidade}
                   </td>
                   <td>
-                    <input
-                      type="text"
-                      value={ row.coluna4 }
-                      onChange={ (e) => handleTableChange(e, rowIndex, 'coluna4') }
-                    />
+                  {row.valor_total}
                   </td>
                   <td>
-                    <button onClick={ () => addRow(row) }>Salvar</button>
+                  <button onClick={ () => addRow(row) }>Editar</button>
+                  </td>
+                  <td>
+                    
+                    <button onClick={ () => addRow(row) }>Remover</button>
                   </td>
                 </tr>
               ))}
