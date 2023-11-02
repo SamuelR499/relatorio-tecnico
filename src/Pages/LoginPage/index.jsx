@@ -1,29 +1,34 @@
 import React, { useState, useContext } from 'react';
+
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-// import FormControlLabel from '@mui/material/FormControlLabel';
-// import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CustomizedSnackbars from '../../Components/Alert/CustomizedSnackbars';
+
+import Brgagn from '../../assets/brgang-logo.png';
 import { AuthContext } from '../../context/userProvider';
 import Copyright from '../../Components/Footer';
 
 const defaultTheme = createTheme();
 
 export default function LoginPage() {
-  const { login } = useContext(AuthContext);
+  const { login, authenticated } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [hasError, SetHasError] = useState(false);
 
   const onLoginBtnClick = async (event) => {
     event.preventDefault();
-    console.log('submit', { email, password });
-    login(email, password);
+    if (!email || !password || !authenticated) {
+      SetHasError(true);
+      setTimeout(() => SetHasError(false), +'4000');
+    } else {
+      login(email, password);
+    }
   };
 
   return (
@@ -38,50 +43,59 @@ export default function LoginPage() {
             alignItems: 'center',
           } }
         >
-          <Avatar sx={ { m: 1, bgcolor: 'secondary.main' } }>
-            <LockOutlinedIcon />
+          <Avatar sx={ { m: 1, bgcolor: 'InactiveCaption', width: 300, height: 100 } }>
+            <img src={ Brgagn } alt="Brgagn Logo" />
           </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
           <Box component="form" noValidate sx={ { mt: 1 } }>
             <TextField
               margin="normal"
+              InputLabelProps={ { shrink: true } }
               required
+              error={ hasError }
               fullWidth
               id="email"
               label="Email Address"
               name="email"
-              autoComplete="email"
-              autoFocus
               value={ email }
               onChange={ ({ target: { value } }) => setEmail(value) }
             />
             <TextField
+              sx={ { '& .Mui-focused': { color: '#411603' } } }
               margin="normal"
+              InputLabelProps={ { shrink: true } }
               required
+              error={ hasError }
               fullWidth
               name="password"
               label="Password"
+              value={ password }
               type="password"
               id="password"
               autoComplete="current-password"
-              value={ password }
               onChange={ ({ target: { value } }) => setPassword(value) }
             />
-            {/* <FormControlLabel
-              control={ <Checkbox value="remember" color="primary" /> }
-              label="Remember me"
-            /> */}
             <Button
               type="Button"
               fullWidth
               variant="contained"
-              sx={ { mt: 3, mb: 2 } }
+              sx={
+                {
+                  mt: 3,
+                  mb: 2,
+                  backgroundColor: '#E8882D',
+                  '&:hover': { backgroundColor: '#411603' } }
+              }
               onClick={ (e) => onLoginBtnClick(e) }
             >
               Sign In
             </Button>
+            <CustomizedSnackbars
+              severity="error"
+              anchorOrigin={ { vertical: 'top', horizontal: 'center' } }
+              open={ hasError }
+              message="Email or password is incorrect"
+              type="error"
+            />
           </Box>
         </Box>
         <Copyright sx={ { mt: 8, mb: 4 } } />
