@@ -6,14 +6,12 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { ThemeProvider } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import CustomizedSnackbars from '../../Components/Alert/CustomizedSnackbars';
 
 import Brgagn from '../../assets/brgang-logo.png';
 import { AuthContext } from '../../context/userProvider';
 import Copyright from '../../Components/Footer';
-import { LightTheme } from '../../themes';
 
 export default function LoginPage() {
   const { login, authenticated } = useContext(AuthContext);
@@ -89,70 +87,69 @@ export default function LoginPage() {
   }
 
   return (
-    <ThemeProvider theme={ LightTheme }>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={ {
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          } }
-        >
-          <Avatar sx={ { m: 1, bgcolor: 'InactiveCaption', width: 300, height: 100 } }>
-            <img src={ Brgagn } alt="Brgagn Logo" />
-          </Avatar>
-          <Box component="form" noValidate sx={ { mt: 1 } }>
-            <TextField
-              margin="normal"
-              InputLabelProps={ { shrink: true } }
-              required
-              error={ open }
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              value={ email }
-              onChange={ ({ target: { value } }) => setEmail(value) }
-            />
-            <TextField
-              margin="normal"
-              InputLabelProps={ { shrink: true } }
-              required
-              error={ open }
-              fullWidth
-              name="password"
-              label="Password"
-              value={ password }
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={ ({ target: { value } }) => setPassword(value) }
-              onKeyDown={ handleKeyDown }
-            />
-            <LoadingButton
-              type="Button"
-              size="medium"
-              sx={ { mt: 3, mb: 2 } }
-              fullWidth
-              onClick={ (e) => onLoginBtnClick(e) }
-              loading={ loading }
-              loadingIndicator="Loading…"
-              variant="contained"
-            >
-              <span>Entrar</span>
-            </LoadingButton>
-            <CustomizedSnackbars
-              severity={ severity }
-              anchorOrigin={ { vertical: 'bottom', horizontal: 'right' } }
-              open={ open }
-              message={ message }
-            />
-          </Box>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={ {
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        } }
+      >
+        <Avatar sx={ { m: 1, bgcolor: 'InactiveCaption', width: 300, height: 100 } }>
+          <img src={ Brgagn } alt="Brgagn Logo" />
+        </Avatar>
+        <Box component="form" noValidate sx={ { mt: 1 } }>
+          <TextField
+            margin="normal"
+            InputLabelProps={ { shrink: true } }
+            required
+            error={ open }
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            value={ email }
+            onChange={ ({ target: { value } }) => setEmail(value) }
+          />
+          <TextField
+            margin="normal"
+            InputLabelProps={ { shrink: true } }
+            required
+            error={ open }
+            fullWidth
+            name="password"
+            label="Password"
+            value={ password }
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            onChange={ ({ target: { value } }) => setPassword(value) }
+            onKeyDown={ handleKeyDown }
+          />
+          <LoadingButton
+            type="Button"
+            size="medium"
+            sx={ { mt: 3, mb: 2 } }
+            fullWidth
+            onClick={ (e) => onLoginBtnClick(e) }
+            loading={ loading }
+            loadingIndicator="Loading…"
+            variant="contained"
+          >
+            <span>Entrar</span>
+          </LoadingButton>
+          <CustomizedSnackbars
+            severity={ severity }
+            anchorOrigin={ { vertical: 'bottom', horizontal: 'right' } }
+            open={ open }
+            message={ message }
+          />
         </Box>
-        <Copyright sx={ { mt: 8, mb: 4 } } />
-      </Container>
-    </ThemeProvider>
+      </Box>
+      <Copyright sx={ { mt: 8, mb: 4 } } />
+    </Container>
+
   );
 }
