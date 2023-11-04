@@ -1,29 +1,28 @@
 import axios from 'axios';
 
-// login <-----------------------------------------------------------
 export const api = axios.create({
-  baseURL: 'https://api-relatorio-tecnico.brgagn.com.br/api/auth',
+  baseURL: 'http://localhost:8000/api',
 });
 
-export const createSession = async (email, password) => {
-  return api.post('/login', { email, password });
+// login <-----------------------------------------------------------
+export const createSession = async (email, password, endpoint) => {
+  return api.post(endpoint, { email, password });
 };
 
-// get relatorio <-------------------------------------------------------
-export const apiTest = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api/',
-});
+// listar relatorio <-------------------------------------------------------
 
 export const getRelatorios = async (endpoint) => {
-  return apiTest.get(endpoint);
+  return api.get(endpoint);
 };
 
-// post relatorio <-------------------------------------------------------
+// criar relatorio <-------------------------------------------------------
 
 export const creatRelatorio = async (payload) => {
-  return apiTest.post('/relatorio/', payload);
+  return api.post('/relatorio/', payload);
 };
 
+// criar despesa <-------------------------------------------------------
+
 export const creatDespesa = async (payload) => {
-  return apiTest.post('/despesas/', payload);
+  return api.post('/despesas/', payload);
 };

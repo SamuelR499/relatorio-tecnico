@@ -4,7 +4,7 @@ import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from './Alert';
 
-export default function CustomizedSnackbars({ message, type, open, anchorOrigin }) {
+export default function CustomizedSnackbars({ message, severity, open, anchorOrigin }) {
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -18,10 +18,9 @@ export default function CustomizedSnackbars({ message, type, open, anchorOrigin 
       <Snackbar
         anchorOrigin={ anchorOrigin }
         open={ open }
-        autoHideDuration={ 6000 }
         onClose={ handleClose }
       >
-        <Alert onClose={ handleClose } severity={ type } sx={ { width: '100%' } }>
+        <Alert onClose={ handleClose } severity={ severity } sx={ { width: '100%' } }>
           {message}
         </Alert>
       </Snackbar>
@@ -32,6 +31,6 @@ export default function CustomizedSnackbars({ message, type, open, anchorOrigin 
 CustomizedSnackbars.propTypes = {
   open: PropTypes.bool.isRequired,
   message: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
+  severity: PropTypes.string.isRequired,
   anchorOrigin: PropTypes.shape().isRequired,
 };

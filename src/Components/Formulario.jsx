@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import {useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import {creatDespesa, creatRelatorio, getRelatorios } from '../services/requests';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
+import { creatDespesa, creatRelatorio, getRelatorios } from '../services/requests';
 
 function Formulario() {
   const [formData, setFormData] = useState({
@@ -24,24 +21,28 @@ function Formulario() {
     responsavel: '',
     atividades: '',
   });
-  const [itensDespesas,setItensDespesas]=useState([]);
+  const [itensDespesas, setItensDespesas] = useState([]);
   const [formDespesa, setFormDespesa] = useState([]);
   const [tableData, setTableData] = useState([]);
-  const {id} = useParams();
+  const { id } = useParams();
   useEffect(() => {
     (async () => {
-      const response = await getRelatorios(`/relatorios/${id}`  );
+      const response = await getRelatorios(`/relatorios/${id}`);
       const { data } = response;
-      
+
+      const despesas = await getRelatorios('/itens_despesas');
+
       setFormData(data.relatorio);
       setTableData(data.despesas);
-      //setItensDespesas(data);
+      setItensDespesas(despesas.data);
+
+      // setItensDespesas(data);
     })();
   }, []);
 
-  const getRelatorio = (id)=>{
+  const getRelatorio = (id) => {
     console.log(id);
-  }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,22 +60,20 @@ function Formulario() {
     });
   };
 
-  const func= async()=>{
-    //setTableData(tableData=>[...tableData,formDespesa]);
-    
-    await creatDespesa(formDespesa).then((response)=>{
+  const func = async () => {
+    // setTableData(tableData=>[...tableData,formDespesa]);
+
+    await creatDespesa(formDespesa).then((response) => {
       console.log(response.data);
-      setTableData(tableData=>[...tableData,response.data]);
-      console.log(tableData)
+      setTableData((tableData) => [...tableData, response.data]);
+      console.log(tableData);
     });
-   
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    creatRelatorio(formData).then((response)=>{
-      
-      
+    creatRelatorio(formData).then((response) => {
+
     });
   };
 
@@ -100,7 +99,8 @@ function Formulario() {
     <Box sx={ { display: 'flex', flexWrap: 'wrap' } }>
       <Container maxWidth="md">
         <Typography variant="h4" align="center" gutterBottom>
-          Formulário de Coleta de Dados{id}
+          Formulário de Coleta de Dados
+          {id}
         </Typography>
         <form onSubmit={ handleSubmit }>
           <TextField
@@ -143,7 +143,7 @@ function Formulario() {
             value={ formData.local }
             onChange={ handleChange }
           />
-          
+
           <TextField
             sx={ { m: 1, width: '42ch' } }
             name="municipio"
@@ -221,18 +221,18 @@ function Formulario() {
           </Button>
         </form>
         <div>
-      
-          <select  name='item' onChange={handleChangeDespesa}>
+
+          <select name="item" onChange={ handleChangeDespesa }>
             <option value={ false }>Selecione</option>
             {itensDespesas.map(({ id, descricao }) => (
               <option key={ id + descricao } value={ id }>{descricao}</option>
             ))}
-            </select>
-            <input onChange={handleChangeDespesa} name='relatorio_id'/>
-          <input  onChange={handleChangeDespesa} name='valor_unitario'/>
-          <input  onChange={handleChangeDespesa} name='quantidade'/>
-          <input  onChange={handleChangeDespesa} name='valor_total'/>
-          <button type='button' onClick={func} >Salvar</button>
+          </select>
+          <input onChange={ handleChangeDespesa } name="relatorio_id" />
+          <input onChange={ handleChangeDespesa } name="valor_unitario" />
+          <input onChange={ handleChangeDespesa } name="quantidade" />
+          <input onChange={ handleChangeDespesa } name="valor_total" />
+          <button type="button" onClick={ func }>Salvar</button>
         </div>
         <div>
           <table>
@@ -251,22 +251,22 @@ function Formulario() {
               {tableData.map((row, rowIndex) => (
                 <tr key={ rowIndex }>
                   <td>
-                   {row.item}
+                    {row.item}
                   </td>
                   <td>
-                  {row.valor_unitario}
+                    {row.valor_unitario}
                   </td>
                   <td>
-                  {row.quantidade}
+                    {row.quantidade}
                   </td>
                   <td>
-                  {row.valor_total}
+                    {row.valor_total}
                   </td>
                   <td>
-                  <button onClick={ () => addRow(row) }>Editar</button>
+                    <button onClick={ () => addRow(row) }>Editar</button>
                   </td>
                   <td>
-                    
+
                     <button onClick={ () => addRow(row) }>Remover</button>
                   </td>
                 </tr>

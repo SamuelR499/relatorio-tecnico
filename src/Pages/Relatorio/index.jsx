@@ -16,7 +16,7 @@ function HomePage() {
 
   useEffect(() => {
     (async () => {
-      const response = await getRelatorios('/relatorio/getAll');
+      const response = await getRelatorios('/relatorios/');
       const { data } = response;
       console.log('oque é isto ??', data);
       setLoading(false);

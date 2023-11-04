@@ -1,10 +1,8 @@
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 
-// import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-// import Link from '@mui/material/Link';
 
 import Chart from './Chart';
 import Deposits from './Deposits';

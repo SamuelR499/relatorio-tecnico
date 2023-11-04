@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import AppBars from '../../Components/AppBars';
+import { LightTheme } from '../../themes';
 
 function HomePage() {
   const [loading, setLoading] = useState(true);
@@ -16,9 +17,8 @@ function HomePage() {
   if (loading) {
     return <div className="loading">Carregando dados...</div>;
   }
-  const defaultTheme = createTheme();
   return (
-    <ThemeProvider theme={ defaultTheme }>
+    <ThemeProvider theme={ LightTheme }>
       <Box sx={ { display: 'flex' } }>
         <AppBars />
         <Box

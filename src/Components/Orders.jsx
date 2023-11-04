@@ -13,7 +13,6 @@ function preventDefault(event) {
 }
 
 export default function Orders({ data }) {
-
   const navigate = useNavigate();
 
   return (
@@ -36,9 +35,11 @@ export default function Orders({ data }) {
               <TableCell>{row.municipio}</TableCell>
               <TableCell>{row.paymentMethod}</TableCell>
               <TableCell align="right">
-                <button onClick ={()=>{
-                  navigate(`/formulario/${row.id}`);
-                }}>
+                <button
+                  onClick={ () => {
+                    navigate(`/formulario/${row.id}`);
+                  } }
+                >
                   Editar
                 </button>
                 <button onClick>
