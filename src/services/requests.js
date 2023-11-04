@@ -15,6 +15,10 @@ export const getRelatorios = async (endpoint) => {
   return api.get(endpoint);
 };
 
+export const postRelatorios = async (endpoint) => {
+  return apiTest.post(endpoint);
+};
+
 // criar relatorio <-------------------------------------------------------
 
 export const creatRelatorio = async (payload) => {

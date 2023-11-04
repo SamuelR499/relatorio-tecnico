@@ -34,8 +34,6 @@ function Formulario() {
 
       setFormData(data.relatorio);
       setTableData(data.despesas);
-      setItensDespesas(despesas.data);
-
       // setItensDespesas(data);
     })();
   }, []);
