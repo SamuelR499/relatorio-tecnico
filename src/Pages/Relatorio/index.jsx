@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { Button } from '@mui/material';
@@ -16,7 +16,7 @@ function HomePage() {
 
   useEffect(() => {
     (async () => {
-      const response = await getRelatorios('/relatorios/');
+      const response = await getRelatorios('/relatorios');
       const { data } = response;
       console.log('oque é isto ??', data);
       setLoading(false);
@@ -24,14 +24,37 @@ function HomePage() {
     })();
   }, []);
 
-  if (loading) {
-    return <div className="loading">Carregando dados...</div>;
-  }
-  const defaultTheme = createTheme();
   return (
-    <ThemeProvider theme={ defaultTheme }>
-      <Box sx={ { display: 'flex' } }>
-        <AppBars />
+    <Box sx={ { display: 'flex' } }>
+      <AppBars />
+      {!loading ? (
+        <Box
+          component="main"
+          sx={ {
+            backgroundColor: (theme) => (theme.palette.mode === 'light'
+              ? theme.palette.grey[100]
+              : theme.palette.grey[900]),
+            flexGrow: 1,
+            height: '100vh',
+            overflow: 'auto',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          } }
+        >
+          <Container maxWidth="lg" sx={ { mt: 10, mb: 4 } }>
+            <div
+              style={ {
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              } }
+            >
+              <CircularProgress />
+            </div>
+          </Container>
+        </Box>
+      ) : (
         <Box
           component="main"
           sx={ {
@@ -51,12 +74,13 @@ function HomePage() {
             >
               Novo
             </Button>
-            { console.log('este é o estado dados', dados)}
             <Orders data={ dados } />
+
           </Container>
         </Box>
-      </Box>
-    </ThemeProvider>
+
+      )}
+    </Box>
   );
 }
 
