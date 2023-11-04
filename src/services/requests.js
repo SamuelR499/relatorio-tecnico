@@ -18,6 +18,10 @@ export const getRelatorios = async (endpoint) => {
   return apiTest.get(endpoint);
 };
 
+export const postRelatorios = async (endpoint) => {
+  return apiTest.post(endpoint);
+};
+
 // post relatorio <-------------------------------------------------------
 
 export const creatRelatorio = async (payload) => {

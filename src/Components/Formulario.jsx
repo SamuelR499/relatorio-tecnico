@@ -33,8 +33,12 @@ function Formulario() {
       const response = await getRelatorios(`/relatorios/${id}`  );
       const { data } = response;
       
+      const despesas = await getRelatorios(`/itens_despesas`  );
+
       setFormData(data.relatorio);
       setTableData(data.despesas);
+      setItensDespesas(despesas.data);
+      
       //setItensDespesas(data);
     })();
   }, []);
