@@ -5,12 +5,13 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { creatDespesa, creatRelatorio, getRelatorios } from '../services/requests';
+import { requestPost, requestGet, requestPut, requestDelete } from '../services/requests';
 
 function Formulario() {
   const [formData, setFormData] = useState({
-    data: '',
-    autor: '',
+    dias: 1,
+    mes: 1,
+    ano: 2022,
     horario_saida: '',
     local: '',
     distancia: '',
@@ -24,25 +25,23 @@ function Formulario() {
   const [itensDespesas, setItensDespesas] = useState([]);
   const [formDespesa, setFormDespesa] = useState([]);
   const [tableData, setTableData] = useState([]);
-  const { id } = useParams();
+  const idParams = useParams().id || null;
+
   useEffect(() => {
     (async () => {
-      const response = await getRelatorios(`/relatorios/${id}`);
+      const response = await requestGet(`/relatorios/${idParams}`);
       const { data } = response;
-
-      const despesas = await getRelatorios('/itens_despesas');
+      if (idParams) {
+        const despesasRelatorio = await requestGet(`/despesas/list/${idParams}`);
+        setTableData(despesasRelatorio.data);
+      }
+      const despesas = await requestGet('/itens_despesas');
 
       setItensDespesas(despesas.data);
 
       setFormData(data.relatorio);
-      //setTableData(data.despesas);
-      // setItensDespesas(data);
     })();
-  }, []);
-
-  const getRelatorio = (id) => {
-    console.log(id);
-  };
+  }, [tableData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -56,43 +55,42 @@ function Formulario() {
     const { name, value } = e.target;
     setFormDespesa({
       ...formDespesa,
+      relatorio_id: idParams,
       [name]: value,
-    });
-  };
-
-  const func = async () => {
-    // setTableData(tableData=>[...tableData,formDespesa]);
-
-    await creatDespesa(formDespesa).then((response) => {
-      console.log(response.data);
-      setTableData((tableData) => [...tableData, response.data]);
-      console.log(tableData);
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    creatRelatorio(formData).then((response) => {
+    if (idParams) {
+      requestPut(`/relatorios/${idParams}`, formData).then((response) => {
+        return response;
+      });
+    } else {
+      requestPost('/relatorios', formData).then((response) => {
+        return response;
+      });
+    }
+  };
 
+  const addRow = async () => {
+    await requestPost('/despesas', formDespesa).then((response) => {
+      console.log('Stado local ->', tableData);
+      console.log('Response ->', response.data);
+      setTableData(() => [...tableData, response.data]);
     });
   };
 
-  const handleTableChange = (e, rowIndex, columnName) => {
-    const newTableData = [...tableData];
-    newTableData[rowIndex][columnName] = e.target.value;
-    console.log(e.target.value);
-    setTableData(newTableData);
+  const updateRow = async (row) => {
+    const { id } = row;
+    await requestPut(`despesas/${id}`, formDespesa).then((response) => {
+      return response;
+    });
   };
 
-  const addRow = (row) => {
-    console.log('Salvou no banco a linha', row);
-    if (!row.coluna1) {
-      alert('selecione uma opção, coluna1 é obrigatório');
-    } else {
-      setTableData(
-        [...tableData, { coluna1: '', coluna2: '', coluna3: '', coluna4: '' }],
-      );
-    }
+  const deleteRow = (row) => {
+    const { id } = row;
+    requestDelete(`despesas/${id}`);
   };
 
   return (
@@ -100,27 +98,38 @@ function Formulario() {
       <Container maxWidth="md">
         <Typography variant="h4" align="center" gutterBottom>
           Formulário de Coleta de Dados
-          {id}
+          {String(idParams)}
         </Typography>
         <form onSubmit={ handleSubmit }>
           <TextField
             sx={ { m: 1, width: '25ch' } }
-            name="autor"
-            label="Autor"
+            name="dias"
+            label="Dias"
+            placeholder="Por exemplo: 1-5, 8, 11-13"
             variant="outlined"
             fullWidth
             margin="normal"
-            value={ formData.autor }
+            value={ formData.dias }
             onChange={ handleChange }
           />
           <TextField
             sx={ { m: 1, width: '25ch' } }
-            name="data"
-            label="Data"
+            name="mes"
+            label="Mês"
             variant="outlined"
             fullWidth
             margin="normal"
-            value={ formData.data }
+            value={ formData.mes }
+            onChange={ handleChange }
+          />
+          <TextField
+            sx={ { m: 1, width: '25ch' } }
+            name="ano"
+            label="ano"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={ formData.ano }
             onChange={ handleChange }
           />
           <TextField
@@ -220,25 +229,23 @@ function Formulario() {
             Enviar
           </Button>
         </form>
-        <div>
 
+        <div>
           <select name="item" onChange={ handleChangeDespesa }>
             <option value={ false }>Selecione</option>
             {itensDespesas.map(({ id, descricao }) => (
               <option key={ id + descricao } value={ id }>{descricao}</option>
             ))}
           </select>
-          <input onChange={ handleChangeDespesa } name="relatorio_id" />
           <input onChange={ handleChangeDespesa } name="valor_unitario" />
           <input onChange={ handleChangeDespesa } name="quantidade" />
           <input onChange={ handleChangeDespesa } name="valor_total" />
-          <button type="button" onClick={ func }>Salvar</button>
+          <button type="button" onClick={ addRow }>Salvar</button>
         </div>
         <div>
           <table>
             <thead>
               <tr>
-
                 <th>Item</th>
                 <th>Valor</th>
                 <th>Quantidade</th>
@@ -263,11 +270,10 @@ function Formulario() {
                     {row.valor_total}
                   </td>
                   <td>
-                    <button onClick={ () => addRow(row) }>Editar</button>
+                    <button onClick={ () => updateRow(row) }>Editar</button>
                   </td>
                   <td>
-
-                    <button onClick={ () => addRow(row) }>Remover</button>
+                    <button onClick={ () => deleteRow(row) }>Remover</button>
                   </td>
                 </tr>
               ))}

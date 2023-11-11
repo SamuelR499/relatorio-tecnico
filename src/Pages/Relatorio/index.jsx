@@ -7,7 +7,7 @@ import { Button } from '@mui/material';
 import AppBars from '../../Components/AppBars';
 import Orders from '../../Components/Orders';
 
-import { getRelatorios } from '../../services/requests';
+import { requestGet } from '../../services/requests';
 
 function HomePage() {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ function HomePage() {
 
   useEffect(() => {
     (async () => {
-      const response = await getRelatorios('/relatorios');
+      const response = await requestGet('/relatorios');
       const { data } = response;
       console.log('oque é isto ??', data);
       setLoading(false);

@@ -7,6 +7,7 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useNavigate } from 'react-router-dom';
+import { requestDelete } from '../services/requests';
 
 function preventDefault(event) {
   event.preventDefault();
@@ -14,6 +15,10 @@ function preventDefault(event) {
 
 export default function Orders({ data }) {
   const navigate = useNavigate();
+
+  const deleteItem = (id) => {
+    requestDelete(`/relatorios/${id}`);
+  };
 
   return (
     <>
@@ -42,7 +47,7 @@ export default function Orders({ data }) {
                 >
                   Editar
                 </button>
-                <button onClick = {()=>{alert()}}>
+                <button type="button" onClick={ () => deleteItem(row.id) }>
                   Remover
                 </button>
               </TableCell>

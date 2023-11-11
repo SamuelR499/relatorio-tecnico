@@ -1,7 +1,7 @@
 import React, { useState, useMemo, createContext, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import { api, createSession } from '../services/requests';
+import { createSession } from '../services/requests';
 
 export const AuthContext = createContext();
 
@@ -22,8 +22,7 @@ export function AuthProvider({ children }) {
   const login = useCallback(async (email, password) => {
     const response = await createSession(email, password, '/auth/login');
     const userToken = response.data.data.token;
-
-    api.defaults.headers.Authorization = `Bearer ${userToken}`;
+    console.log(response.data);
 
     localStorage.setItem('token', `Bearer ${userToken}`);
     setToken(userToken);
@@ -33,7 +32,6 @@ export function AuthProvider({ children }) {
 
   const logout = useCallback(() => {
     console.log('logout');
-    api.defaults.headers.Authorization = null;
     localStorage.removeItem('token');
     setToken(null);
 

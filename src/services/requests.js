@@ -9,24 +9,54 @@ export const createSession = async (email, password, endpoint) => {
   return api.post(endpoint, { email, password });
 };
 
-// listar relatorio <-------------------------------------------------------
+// ------------------------------------------------------------------
 
-export const getRelatorios = async (endpoint) => {
-  return api.get(endpoint);
+export const requestGet = async (endpoint) => {
+  const token = localStorage.getItem('token');
+  return api.get(
+    endpoint,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
 };
 
-export const postRelatorios = async (endpoint) => {
-  return apiTest.post(endpoint);
+export const requestPost = async (endpoint, payload) => {
+  const token = localStorage.getItem('token');
+  return api.post(
+    endpoint,
+    payload,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
 };
 
-// criar relatorio <-------------------------------------------------------
-
-export const creatRelatorio = async (payload) => {
-  return api.post('/relatorio/', payload);
+export const requestPut = async (endpoint, payload) => {
+  const token = localStorage.getItem('token');
+  return api.put(
+    endpoint,
+    payload,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
 };
 
-// criar despesa <-------------------------------------------------------
-
-export const creatDespesa = async (payload) => {
-  return api.post('/despesas/', payload);
+export const requestDelete = async (endpoint) => {
+  const token = localStorage.getItem('token');
+  return api.delete(
+    endpoint,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
 };
