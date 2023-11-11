@@ -27,7 +27,7 @@ function HomePage() {
   return (
     <Box sx={ { display: 'flex' } }>
       <AppBars />
-      {!loading ? (
+      {loading ? (
         <Box
           component="main"
           sx={ {

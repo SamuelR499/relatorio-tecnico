@@ -42,7 +42,7 @@ export default function Orders({ data }) {
                 >
                   Editar
                 </button>
-                <button onClick>
+                <button onClick = {()=>{alert()}}>
                   Remover
                 </button>
               </TableCell>
