@@ -13,7 +13,7 @@ function preventDefault(event) {
   event.preventDefault();
 }
 
-export default function Orders({ data }) {
+export default function Despesas({ data }) {
   const navigate = useNavigate();
 
   const deleteItem = (id) => {
@@ -62,7 +62,7 @@ export default function Orders({ data }) {
   );
 }
 
-Orders.propTypes = {
+Despesas.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     date: PropTypes.string,

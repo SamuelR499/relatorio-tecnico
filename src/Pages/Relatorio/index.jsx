@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { Button } from '@mui/material';
 import AppBars from '../../Components/AppBars';
-import Orders from '../../Components/Orders';
+import Orders from '../../Components/Despesas';
 
 import { requestGet } from '../../services/requests';
 

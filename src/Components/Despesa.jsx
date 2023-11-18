@@ -6,7 +6,7 @@ import Paper from '@mui/material/Paper';
 
 import Chart from './Chart';
 import Deposits from './Deposits';
-import Orders from './Orders';
+import Despesas from './Despesas';
 
 export default function Despesa() {
   return (
@@ -27,7 +27,7 @@ export default function Despesa() {
       </Grid>
       <Grid item xs={ 12 }>
         <Paper sx={ { p: 2, display: 'flex', flexDirection: 'column' } }>
-          <Orders />
+          <Despesas />
         </Paper>
       </Grid>
     </>

@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from '../Pages/HomePage';
+import HomePage from '../Pages/homePage';
 import LoginPage from '../Pages/LoginPage';
 import Relatorio from '../Pages/Relatorio';
-import Forms from '../Pages/Forms';
+import Forms from '../Pages/Relatorio/Forms';
 
 import { AuthProvider } from '../context/userProvider';
 import Private from './PrivateRoute';

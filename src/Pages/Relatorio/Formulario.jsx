@@ -5,7 +5,12 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { requestPost, requestGet, requestPut, requestDelete } from '../services/requests';
+import {
+  requestPost,
+  requestGet,
+  requestPut,
+  requestDelete,
+} from '../../services/requests';
 
 function Formulario() {
   const [formData, setFormData] = useState({
@@ -29,17 +34,16 @@ function Formulario() {
 
   useEffect(() => {
     (async () => {
-      const response = await requestGet(`/relatorios/${idParams}`);
-      const { data } = response;
       if (idParams) {
         const despesasRelatorio = await requestGet(`/despesas/list/${idParams}`);
+        const response = await requestGet(`/relatorios/${idParams}`);
+        const { data } = response;
+        setFormData(data.relatorio);
         setTableData(despesasRelatorio.data);
       }
       const despesas = await requestGet('/itens_despesas');
 
       setItensDespesas(despesas.data);
-
-      setFormData(data.relatorio);
     })();
   }, [tableData]);
 
@@ -228,8 +232,10 @@ function Formulario() {
           <Button type="submit" variant="contained" color="primary">
             Enviar
           </Button>
+
         </form>
 
+        {/*----------------------------------------------------------------*/}
         <div>
           <select name="item" onChange={ handleChangeDespesa }>
             <option value={ false }>Selecione</option>
