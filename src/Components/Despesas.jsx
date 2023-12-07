@@ -7,7 +7,8 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useNavigate } from 'react-router-dom';
-import { requestDelete } from '../services/requests';
+import { requestDelete,requestGet } from '../services/requests';
+
 
 function preventDefault(event) {
   event.preventDefault();
@@ -40,6 +41,11 @@ export default function Despesas({ data }) {
               <TableCell>{row.municipio}</TableCell>
               <TableCell>{row.paymentMethod}</TableCell>
               <TableCell align="right">
+                <button>
+                <a href={'https://os.ecrsistemas.com.br/gerar-pdf/'+row.id} target="_blank">
+                  Imprimir
+                </a>
+                </button>
                 <button
                   onClick={ () => {
                     navigate(`/formulario/${row.id}`);

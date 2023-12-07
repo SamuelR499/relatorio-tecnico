@@ -5,7 +5,6 @@ import Container from '@mui/material/Container';
 import AppBars from '../../../Components/AppBars';
 import { LightTheme } from '../../../themes/Light';
 import Formulario from '../Formulario';
-import ModalWithForm from '../EditeDespesa';
 
 function Forms() {
   const [loading, setLoading] = useState(true);
@@ -36,7 +35,7 @@ function Forms() {
         >
           <Container maxWidth="lg" sx={ { mt: 10, mb: 4 } }>
             <Formulario />
-            <ModalWithForm />
+            
           </Container>
         </Box>
       </Box>

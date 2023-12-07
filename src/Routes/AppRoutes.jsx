@@ -6,6 +6,7 @@ import Forms from '../Pages/Relatorio/Forms';
 
 import { AuthProvider } from '../context/userProvider';
 import Private from './PrivateRoute';
+import Teste from '../Pages/Teste';
 
 function AppRoutes() {
   return (
@@ -37,6 +38,15 @@ function AppRoutes() {
             element={
               <Private>
                 <Forms />
+              </Private>
+            }
+          />
+          <Route
+            exact
+            path="/ttt"
+            element={
+              <Private>
+                <Teste />
               </Private>
             }
           />
